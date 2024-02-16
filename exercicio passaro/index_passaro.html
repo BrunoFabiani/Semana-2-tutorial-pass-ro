@@ -1,0 +1,131 @@
+
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <title>Exercício do Pássaro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;  } 
+    </style>
+</head> 
+<body>
+
+<script>
+
+var config = { // configurações do comportamento do jogo
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config); //o código está criando a variavél 'game' e a usando  para armenazar a instância do jogo Phaser que estamos criando. O objeto (config) serve para conter todas as configuraçõesnecessárias para definir o comportamento básico do jogo (width, height e etc).
+
+    function preload()  { //faz o preload para que seja exista o arquivo onde o código possa pegar para fazer o sprite
+        this.load.image('bg', 'assets/bg_space.png');
+        this.load.spritesheet('bird', 'assets/bird-purple.png', { frameWidth: 75, frameHeight: 75 });
+        this.load.spritesheet('birdverde', 'assets/bird-green.png', { frameWidth: 75, frameHeight: 75 });
+        this.load.image('palm', 'assets/Escudo-Palmeiras-Png.webp');
+        this.load.image('mund', 'assets/trofeu_mundial.png');
+    }
+
+    function create() { //cria os sprites na tela do usúario para este ser visto
+        this.add.image(400, 300, 'bg').setScale(1.2);
+        passarinho = this.add.sprite(100, 300, 'bird').setScale(1.3);
+        passarinhoverde = this.add.sprite(200, 400, 'birdverde').setScale(1.3);
+        this.add.image(100, 200, 'palm').setScale(0.2);
+        this.add.image(150, 200, 'mund').setScale(0.2);
+
+        this.anims.create({ //é uma função do phaser usada para fazer animações, seja definir uma nova animação ou sobrescrever sobre está
+            key: 'fly',
+            frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 7 }),
+            frameRate: 10, //define a taxa de quadros da animação, o quanto será exibidos por segundos.
+            repeat: -1 //quantas vezes a animação deverá ser repetida, neste caso o -1 significa que ela será repetida infinitamente
+        });
+        this.anims.create({ //é uma função do phaser usada para fazer animações, seja definir uma nova animação ou sobrescrever sobre está
+            key: 'flyverde',
+            frames: this.anims.generateFrameNumbers('birdverde', { start: 0, end: 7 }),
+            frameRate: 10, //define a taxa de quadros da animação, o quanto será exibidos por segundos.
+            repeat: -1 //quantas vezes a animação deverá ser repetida, neste caso o -1 significa que ela será repetida infinitamente
+        });
+
+        passarinho.anims.play('fly', true);
+        passarinhoverde.anims.play('flyverde', true);
+
+    }
+
+    function update() {
+            
+        if (passarinho.x === 100) {
+            passarinho.setFlip(false, false); //reverte qualquer flip que tenha sido feito para o sprite do passarinho, fazendo ele ser igual de quando o código começou
+            passarinho.ida = true;
+        }
+        if (passarinho.x < 700 && passarinho.ida === true) {
+            console.log("O código verifica a posição do passarinho, e caso o passarinho esteja com o seu valor de x abaixo de 700 e o valor do passarinho.ida ser true o código adiciona +5 para a sua posição x(horizontal). ");
+            passarinho.x += 5;
+        }
+        if (passarinho.x === 700) {
+            passarinho.setFlip(true, false);
+            passarinho.ida = false; //prepara a váriavel do passarinho.ida para que no próximo if ele seja considerado falso e o código funcione.
+        }
+        if (passarinho.x > 100 && passarinho.ida === false) {
+            console.log("Do mesmo jeito que antes o código verifica o valor de x do passarinho e a váriavel do passarinho.ida, e caso os valores forem correspondidos o código agora irá mandar o passarinho na outra direção, subtraindo -5 de sua posição x(horizontal). E como no if anterior ele virá o sprite do passarinho caso este chegue na marca do x = 700, isto dá a ilusão que o passarinho está se movendo de um lado para o outro.");
+            passarinho.x -= 5;
+        }
+        if (passarinho.y === 300) {
+            passarinho.iday = true; // minha reação a este código --> >:/ pq nao funciona????? >:(
+        }
+        if (passarinho.y < 550 && passarinho.iday === true) {
+            passarinho.y += 5;
+        }
+        if (passarinho.y === 550) {
+            passarinho.iday = false; 
+        }
+        if (passarinho.y > 300 && passarinho.iday === false) {
+            passarinho.y -= 5;
+        }
+        if (passarinhoverde.x === 200) {
+            passarinhoverde.setFlip(false, false); //reverte qualquer flip que tenha sido feito para o sprite do passarinho, fazendo ele ser igual de quando o código começou
+            passarinhoverde.ida = true;
+        }
+        if (passarinhoverde.x < 700 && passarinhoverde.ida === true) {
+            passarinhoverde.x += 5;
+        }
+        if (passarinhoverde.x === 700) {
+            passarinhoverde.setFlip(true, false);
+            passarinhoverde.ida = false; //prepara a váriavel do passarinho.ida para que no próximo if ele seja considerado falso e o código funcione.
+        }
+        if (passarinhoverde.x > 200 && passarinhoverde.ida === false) {
+            passarinhoverde.x -= 5;
+        }
+        if (passarinhoverde.y === 400) {
+            passarinhoverde.iday = true; // minha reação a este código --> >:/ pq nao funciona????? >:(
+        }
+        if (passarinhoverde.y < 550 && passarinhoverde.iday === true) {
+            passarinhoverde.y += 5;
+        }
+        if (passarinhoverde.y === 550) {
+            passarinhoverde.iday = false; 
+        }
+        if (passarinhoverde.y > 400 && passarinhoverde.iday === false) {
+            passarinhoverde.y -= 5;
+        }
+    }
+
+</script>
+
+</body>
+</html>
